@@ -29,7 +29,6 @@ export default function (BasePlugin) {
       async.parallel(asyncPartials, () => {
         opts.content = opts.content.replace(partialContainerRegex, (match, partialId) => {
           const partial = resultPartials[partialId];
-          delete resultPartials[partialId];
           return partial;
         });
         next();
