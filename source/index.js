@@ -120,10 +120,10 @@ export default function (BasePlugin) {
         const isAnyExtensionProvided = Array.isArray(config.extensions);
         const isProperExtension = isAnyExtensionProvided && config.extensions.find((extension) => partial.extensions.includes(extension) );
 
-        if (!isProperExtension) {
+        if (!isProperExtension || !templateData) {
           if (simplePartials[partialName]) return `[simple_partial:${partialName}]`;
           docpad.renderDocument(rawPartial, {
-            templateData: {}
+            templateData: isProperExtension ? this : {}
           }, (err, result) => {
             if (err) docpad.log(`Rendering ${partialName} failed with error: ${err}`);
             simplePartials[partialName] =  err ? `Partial ${partialName} can't be rendered` : result.replace(/\n$/, ''); // this replace is removing LAST EOL - eco templating forces one liners to end with \n
